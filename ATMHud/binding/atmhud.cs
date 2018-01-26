@@ -1,10 +1,11 @@
 using System;
 using System.Drawing;
 
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.CoreAnimation;
-using MonoTouch.UIKit;
+using Foundation;
+using CoreAnimation;
+using CoreGraphics;
+using UIKit;
+using ObjCRuntime;
 
 namespace MonoTouch.AtmHud {
 	//@interface ATMHud : UIViewController {
@@ -136,7 +137,7 @@ namespace MonoTouch.AtmHud {
 		
 		//- (void)setFixedSize:(CGSize)fixedSize;
 		[Export ("setFixedSize:")]
-		void SetFixedSize (SizeF fixedSize);
+		void SetFixedSize (CGSize fixedSize);
 		
 		//- (void)setProgress:(CGFloat)progress;
 		[Export ("setProgress:")]
@@ -291,31 +292,31 @@ namespace MonoTouch.AtmHud {
 		
 		//@property (nonatomic, assign) CGRect targetBounds;
 		[Export ("targetBounds")]
-		RectangleF TargetBounds { get; set; }
+		CGRect TargetBounds { get; set; }
 		
 		//@property (nonatomic, assign) CGRect captionRect;
 		[Export ("captionRect")]
-		RectangleF CaptionRect { get; set; }
+		CGRect CaptionRect { get; set; }
 		
 		//@property (nonatomic, assign) CGRect progressRect;
 		[Export ("progressRect")]
-		RectangleF ProgressRect { get; set; }
+		CGRect ProgressRect { get; set; }
 		
 		//@property (nonatomic, assign) CGRect activityRect;
 		[Export ("activityRect")]
-		RectangleF ActivityRect { get; set; }
+		CGRect ActivityRect { get; set; }
 		
 		//@property (nonatomic, assign) CGRect imageRect;
 		[Export ("imageRect")]
-		RectangleF ImageRect { get; set; }
+		CGRect ImageRect { get; set; }
 		
 		//@property (nonatomic, assign) CGSize fixedSize;
 		[Export ("fixedSize")]
-		SizeF FixedSize { get; set; }
+		CGSize FixedSize { get; set; }
 		
 		//@property (nonatomic, assign) CGSize activitySize;
 		[Export ("activitySize")]
-		SizeF ActivitySize { get; set; }
+		CGSize ActivitySize { get; set; }
 		
 		//@property (nonatomic, retain) CALayer *backgroundLayer;
 		[Export ("backgroundLayer")]
@@ -339,7 +340,7 @@ namespace MonoTouch.AtmHud {
 		
 		//- (id)initWithFrame:(CGRect)frame andController:(AtmHud *)c;
 		[Export ("initWithFrame:andController:")]
-		IntPtr Constructor (RectangleF frame, AtmHud controller);
+		IntPtr Constructor (CGRect frame, AtmHud controller);
 		
 		#endregion
 		
@@ -347,7 +348,7 @@ namespace MonoTouch.AtmHud {
 		
 		//- (CGRect)sharpRect:(CGRect)rect;
 		[Export ("sharpRect:")]
-		RectangleF SharpRect (RectangleF rect);
+		CGRect SharpRect (CGRect rect);
 		
 		//- (CGPoint)sharpPoint:(CGPoint)point;
 		[Export ("sharpPoint:")]
@@ -357,13 +358,13 @@ namespace MonoTouch.AtmHud {
 		[Export ("calculate")]
 		void Calculate ();
 		
-		//- (CGSize)calculateSizeForQueueItem:(AtmHudQueueItem *)item;
-		[Export ("calculateSizeForQueueItem:")]
-		SizeF CalculateSize (AtmHudQueueItem item);
+		//- (CGSize)calculateCGSizeorQueueItem:(AtmHudQueueItem *)item;
+		[Export ("calculateCGSizeorQueueItem:")]
+		CGSize CalculateSize (AtmHudQueueItem item);
 		
-		//- (CGSize)sizeForActivityStyle:(UIActivityIndicatorViewStyle)style;
-		[Export ("sizeForActivityStyle:")]
-		SizeF SizeForActivityStyle (UIActivityIndicatorViewStyle style);
+		//- (CGSize)CGSizeorActivityStyle:(UIActivityIndicatorViewStyle)style;
+		[Export ("CGSizeorActivityStyle:")]
+		CGSize CGSizeorActivityStyle (UIActivityIndicatorViewStyle style);
 		
 		//- (void)applyWithMode:(AtmHudApplyMode)mode;
 		[Export ("applyWithMode:")]

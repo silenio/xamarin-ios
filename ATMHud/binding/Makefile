@@ -1,10 +1,15 @@
 XBUILD=/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
-BTOUCH=/Developer/MonoTouch/usr/bin/btouch
+BTOUCH=/Developer/MonoTouch/usr/bin/btouch-native
 PROJECT_ROOT=atmhud-sdk
 PROJECT=$(PROJECT_ROOT)/atmhud-sdk.xcodeproj
 TARGET=atmhud-sdk
 
 all: ATMHud.dll
+
+
+libATMHud-x86_64.a:
+	$(XBUILD) -project $(PROJECT) -target $(TARGET) -sdk iphonesimulator -arch x86_64 -configuration Release clean build
+	-mv $(PROJECT_ROOT)/build/Release-iphonesimulator/lib$(TARGET).a $@
 
 libATMHud-i386.a:
 	$(XBUILD) -project $(PROJECT) -target $(TARGET) -sdk iphonesimulator -configuration Release clean build
@@ -14,11 +19,15 @@ libATMHud-armv7.a:
 	$(XBUILD) -project $(PROJECT) -target $(TARGET) -sdk iphoneos -arch armv7 -configuration Release clean build
 	-mv $(PROJECT_ROOT)/build/Release-iphoneos/lib$(TARGET).a $@
 
-libATMHudSDK.a: libATMHud-i386.a libATMHud-armv7.a
+libATMHud-arm64.a:
+	$(XBUILD) -project $(PROJECT) -target $(TARGET) -sdk iphoneos -arch arm64 -configuration Release clean build
+	-mv $(PROJECT_ROOT)/build/Release-iphoneos/lib$(TARGET).a $@
+
+libATMHudSDK.a: libATMHud-i386.a libATMHud-armv7.a libATMHud-x86_64.a libATMHud-arm64.a
 	lipo -create -output $@ $^
 
 ATMHud.dll: atmhud.cs enums.cs AssemblyInfo.cs libATMHudSDK.a
-	$(BTOUCH) atmhud.cs enums.cs AssemblyInfo.cs --out=$@ --link-with=libATMHudSDK.a,libATMHudSDK.a
+	$(BTOUCH) atmhud.cs enums.cs AssemblyInfo.cs --new-style --out=$@ --link-with=libATMHudSDK.a,libATMHudSDK.a
 
 clean: 
 	-rm -f *.a *.dll
